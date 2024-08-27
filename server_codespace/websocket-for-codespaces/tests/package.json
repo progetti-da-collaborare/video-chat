@@ -1,0 +1,21 @@
+{
+  "type": "module",
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "mocha": "^10.4.0"
+  },
+  "dependencies": {
+    "chai": "^5.1.1",
+    "expect": "^29.7.0"
+  }
+}

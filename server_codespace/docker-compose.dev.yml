@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  # Контейнер с Node.js
+  app:
+    build:
+      context: ./websocket-for-codespaces
+      target: dev
+    restart: unless-stopped
+#    cap_add:
+#    - ALL
+# https://github.com/punkstar/docker-compose/blob/master/docs/compose-file.md
+    # cap_drop:
+    # - NET_ADMIN
+    # - SYS_ADMIN
+    tty: true
+#    working_dir: /home/server
+    volumes:
+      - /home/server/node_modules
+      - /home/server/dbs
+#    environment:
+#      - MONGODB_URI=mongodb://user:password@mongo:27017/admin
+    env_file:
+      - ./.env
+    ports:
+      - '8082:8082'
+    expose:
+      - '8082'
+    external_links:
+      - mongo
+    networks:
+      - mongo
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    hostname: 'mongo'
+    container_name: mongo
+    restart: unless-stopped
+#    working_dir: /home/server/dbs/mongo
+#    env_file: ./.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=12345678
+      - MONGO_INITDB_DATABASE=admin
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
+  mongo-express:
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+#      - ME_CONFIG_MONGODB_PORT=27017 - не работает, вроде deprecated - надо ME_CONFIG_MONGODB_URL
+#      - ME_CONFIG_MONGODB_URL=mongo://admin:password@localhost:27017/db?ssl=false
+#      - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017
+      - ME_CONFIG_MONGODB_URL=mongodb://iUUGI77HGJ7:uig778GGY789hIUHGUYgyuyu_9@mongo:27017/admin
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=iUUGI77HGJ7
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=uig778GGY789hIUHGUYgyuyu_9
+      - ME_CONFIG_BASICAUTH_USERNAME=login
+      - ME_CONFIG_BASICAUTH_PASSWORD=per_ass_sword
+    depends_on:
+      - mongo
+    ports:
+      - "8888:8081"
+    networks:
+      - mongo
+networks:
+  mongo:

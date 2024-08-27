@@ -1,0 +1,28 @@
+//-Contacts with lectors, supposed to be available only to registered users
+doctype html
+html(lang='en')
+  head
+    meta(http-equiv='Content-Type' content='text/html' charset='UTF-8')
+
+    title Contacts
+        
+    link(rel='stylesheet' href='/index.css')
+
+
+  body(class='tableContactsClass')
+    table
+      thead
+      tbody
+    div(style={visibility: "hidden"}) [#{data}]
+    script(src = '/scriptLoadContacts.js', type='text/javascript' )
+
+//-document.onclick = loadJSON([#{data}])
+//-    window.onload = async function() {
+//-        const element = document.querySelector('p');
+//-        let q = [#{data}];
+//-        console.log("q[0]._id");
+//-        
+//-       element.setHTML(q);
+//-element.setHTML(JSON.stringify(q));
+//-console.log(JSON.stringify(q));99
+//-    };
