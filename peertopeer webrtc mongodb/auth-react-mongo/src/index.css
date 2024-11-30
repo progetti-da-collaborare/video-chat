@@ -17,3 +17,38 @@ textarea {
   height: 100%;
   width: 100%;
 }
+
+.classBlocks {
+  display: flex;
+  flex-direction: column;
+  grid-column: 10px;
+}
+
+.classBlocks > div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid gray;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.classBlocks > div > div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.alignC{
+  align-self: center;
+}
+
+.alignL{
+  align-self: flex-start;
+}
+
+.classBlocks button {
+  padding: 0px 20px;
+  margin: 5px;
+}

@@ -43,7 +43,7 @@ const MESSAGE_STATUS = Object.freeze({
  * 
  * state.idGroupCall - group call id
  */
-const useRTC = ( { localStream, httpServer, setText, setErr } ) => {
+const useRTC = ( { localStream, httpServer, setText, onReceiveMessageCallback, setErr } ) => {
     //Статусы передачи сообщений в reducer из пула сообщений сокетного клиента
     const [statusMsg, setStatusMsg] = useState(MESSAGE_STATUS.PROCESSED)    //Needed user id from server on socket creation
     //Режим работы зависит от фронтенда. Начать созвон, присоединиться, отключено, в процессе установленного режима
@@ -122,12 +122,12 @@ const useRTC = ( { localStream, httpServer, setText, setErr } ) => {
     }, [setErr])
 
 
-    const [rtc, setRtc] = useState(null)
+    const [rtc, setRtc] = useState([])
     const [connectFn, sendMessage, status, setStatus, disconnectFn, idMe] = useWebSocketClient({onMessage, onClose, onOpen, onError, setStatusMsg, statusMsg, setErr})
     const [setConnectFn, setDisconnectFn, connect, disconnect] = useConnectionPauseHandler({status, setStatus, setErr})
 
     const [dispatchAlias, setDispatchAlias] = useState(null)
-    const [fff, dispatch] = useReducer(ReducerWebSocket({srvs: serversNatStun, setText, dispatch: dispatchAlias, setErr}), new Promise(resolve => { resolve({
+    const [fff, dispatch] = useReducer(ReducerWebSocket({srvs: serversNatStun, setText, onReceiveMessageCallback: onReceiveMessageCallback, dispatch: dispatchAlias, setErr}), new Promise(resolve => { resolve({
         idMe: null,     //id для доступа к сокетному соединению
         idGroupCall: null,      //id группового созвона
         localStream: localStream,
@@ -208,8 +208,8 @@ const useRTC = ( { localStream, httpServer, setText, setErr } ) => {
     useEffect( () => {
         try {
             setRtc(state.pc ? Object.keys(state.pc).map( a => {
-                return {id: a, stream: state.pc[a].remoteStream, channel: state.pc[a].channel }
-            }) : {})
+                return {id: a, stream: state.pc[a].remoteStream, channel: state.pc[a].channel, fileChannel: state.pc[a].fileChannel }
+            }) : [])
         } catch(e) {
             setErr && setErr(e.message)
         }

@@ -10,6 +10,7 @@ const MSG_TYPE = Object.freeze({
     //События обработать при получении
     frontendSet: "frontendSet", //Set parameters on frontend without server implementation
     addChannel: "addChannel",
+    addFileChannel: "addFileChannel",
     newUserId: "myUserId",
     newGroupCall: "newGroupCall",
     newCall: "newCall",
@@ -34,7 +35,7 @@ const MSG_TYPE = Object.freeze({
         pc: {id: //{rtc: объект RTCPeerConnection, remoteStream: поток MediaStream для вывода в <video> }//}   //Объект для организации связи по протоколам webrtc
 */
 
-const ReducerWebSocket = ({srvs, setText, dispatch, setErr}) => {
+const ReducerWebSocket = ({srvs, setText, onReceiveMessageCallback, dispatch, setErr}) => {
 
 const useReducerWebSocket = async (statePromise, action) => {
 try {
@@ -52,6 +53,12 @@ try {
             {
                 const tmp = {...state}
                 tmp.pc[action.data.idRtc].channel = action.data.channel
+                return tmp  //{...state, ...action.data}
+            }
+        case MSG_TYPE.addFileChannel :
+            {
+                const tmp = {...state}
+                tmp.pc[action.data.idRtc].fileChannel = action.data.fileChannel
                 return tmp  //{...state, ...action.data}
             }
         case MSG_TYPE.newUserId :   //Сохранить id для доступа к сокетному соединению
@@ -81,6 +88,7 @@ try {
                                 }
                                 const p = new RTCPeerConnection(servers)
                                 let channel = null
+                                let fileChannel = null
                                 const remoteStream = new MediaStream()
                                 // Pull tracks from remote stream, add to video stream
                                 p.ontrack = event => {
@@ -101,8 +109,17 @@ try {
                                         }
                                         channel.onmessage = (event) => {
                                             //console.log("offer:" + event.data)
-                                            setText(event.data)
+                                            const js = JSON.parse(event.data)
+                                            setText(js.text, js.name)
                                         }
+
+                                        fileChannel = p.createDataChannel("filedatachannel")
+                                        fileChannel.onopen = (event) => {
+                                            //channel.send("Hi you!")
+                                        }
+                                        fileChannel.binaryType = "arraybuffer";
+                                        fileChannel.onmessage = (msg) => onReceiveMessageCallback(msg);
+                                        fileChannel.bufferedAmountLowThreshold = 0;
 
                                         // Get candidates for caller, send to db
                                         p.onicecandidate = event => {
@@ -137,21 +154,38 @@ try {
                                         })
                                     } else {
                                         p.ondatachannel = (event) => {
-                                            const channel = event.channel
-                                            channel.onopen = (event) => {
-                                                //channel.send("Hi back!")
-                                            }
-                                            channel.onmessage = (event) => {
-                                                //console.log("answer:" + event.data)
-                                                setText(event.data)
-                                            }
+                                            if(event.channel.label === "datachannel") {
+                                                channel = event.channel
+                                                channel.onopen = (event) => {
+                                                    //channel.send("Hi back!")
+                                                }
+                                                channel.onmessage = (event) => {
+                                                    //console.log("answer:" + event.data)
+                                                    const js = JSON.parse(event.data)
+                                                    setText(js.text, js.name)
+                                                }
+                                                let action = {}
+                                                action.type = MSG_TYPE.addChannel
+                                                action.data = {}
+                                                action.data.idRtc = a._id
+                                                action.data.channel = channel
+                                                dispatch && dispatch(action)
+                                            } else {
+                                                fileChannel = event.channel
+                                                fileChannel.onopen = (event) => {
+                                                    //channel.send("Hi you!")
+                                                }
+                                                fileChannel.binaryType = "arraybuffer";
+                                                fileChannel.onmessage = (msg) => onReceiveMessageCallback(msg);
+                                                fileChannel.bufferedAmountLowThreshold = 0;
 
-                                            let action = {}
-                                            action.type = MSG_TYPE.addChannel
-                                            action.data = {}
-                                            action.data.idRtc = a._id
-                                            action.data.channel = channel
-                                            dispatch && dispatch(action)
+                                                let action = {}
+                                                action.type = MSG_TYPE.addFileChannel
+                                                action.data = {}
+                                                action.data.idRtc = a._id
+                                                action.data.fileChannel = fileChannel
+                                                dispatch && dispatch(action)
+                                            }
                                         }
 
                                         p.onicecandidate = event => {
@@ -164,7 +198,7 @@ try {
                                         };
 
                                     }
-                                tmp[a._id] = {rtc: p, remoteStream: remoteStream, channel: channel}
+                                tmp[a._id] = { rtc: p, remoteStream: remoteStream, channel: channel, fileChannel: fileChannel }
                             }))
                             await proms
                         return tmp

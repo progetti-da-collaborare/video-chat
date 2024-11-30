@@ -1,4 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback , useReducer} from 'react'
+//import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap'
 
 const Selector = ({devices, setGroupId, setErr, exMyVideo}) => {
     const [cameras, setCameras] = useState([])
@@ -16,7 +19,7 @@ const Selector = ({devices, setGroupId, setErr, exMyVideo}) => {
 
     return <>
       <label htmlFor="camera-select">{exMyVideo ? "Choose a microphone" : "Choose a camera"}:</label>
-      <select name="cameras" id="camera-select" onChange={e => { 
+      <select class="form-select" name="cameras" id="camera-select" onChange={e => { 
         setGroupId(e.target.value)}}>
         <option value="">{exMyVideo ? "--Please choose a microphone--" : "--Please choose a camera--"}</option>
         { cameras.map( a => <option value={a.groupId} key={a.label}>{a.label}</option> ) }

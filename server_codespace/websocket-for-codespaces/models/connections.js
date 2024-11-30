@@ -34,13 +34,14 @@ function makeNewConnection(uri) {
   return db;
 }
 
-/*
+
 const authConnection = makeNewConnection('mongodb+srv://Jaimlja:%5FGirolamo%5FCardano%5F13@cluster.tiqwl5f.mongodb.net/auth_roles?retryWrites=true&w=majority');
 const docsConnection = makeNewConnection('mongodb+srv://Jaimlja:%5FGirolamo%5FCardano%5F13@cluster.tiqwl5f.mongodb.net/documents?retryWrites=true&w=majority');
-*/
 
+/*
 const authConnection = makeNewConnection('mongodb://user:password@mongo:27017/mongo_auth');
 //const docsConnection = makeNewConnection('mongodb://user:password@mongo:27017/admin?authSource=admin&directConnection=true');
+*/
 
 export {
   authConnection,

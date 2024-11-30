@@ -17,3 +17,30 @@ root.render(
 reportWebVitals();
 
 //window.addEventListener("load", () => alert("qwerty!"));
+
+/*
+const registerServiceWorker = async () => {
+  if ("serviceWorker" in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js', {
+        scope: "http://localhost:3005/",
+      });
+      if (registration.installing) {
+        console.log("Service worker installing")
+      } else if (registration.waiting) {
+        console.log("Service worker installed")
+      } else if (registration.active) {
+        console.log("Service worker active")
+      };
+      navigator.serviceWorker.addEventListener('message', function(event) {
+        console.log("Got reply from service worker: " + event.data)
+      })
+    } catch (error) {
+      const yy = 0.9
+      console.error(`Registration failed with ${error}`)
+    }
+  }
+}
+
+registerServiceWorker()
+*/
