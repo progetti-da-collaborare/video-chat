@@ -34,16 +34,25 @@ function makeNewConnection(uri) {
   return db;
 }
 
-
+//DBs in mongo Atlas online
+/*
 const authConnection = makeNewConnection('mongodb+srv://Jaimlja:%5FGirolamo%5FCardano%5F13@cluster.tiqwl5f.mongodb.net/auth_roles?retryWrites=true&w=majority');
 const docsConnection = makeNewConnection('mongodb+srv://Jaimlja:%5FGirolamo%5FCardano%5F13@cluster.tiqwl5f.mongodb.net/documents?retryWrites=true&w=majority');
+*/
 
+//DBs in docker containers, server on PC
+const authConnection = makeNewConnection('mongodb://user:password@mongo:27017/mongo_auth?authSource=admin');
+const docsConnection = makeNewConnection('mongodb://user:password@mongo:27017/mongo_documents?authSource=admin');
+
+//DBs and server in docker containers
 /*
-const authConnection = makeNewConnection('mongodb://user:password@mongo:27017/mongo_auth');
-//const docsConnection = makeNewConnection('mongodb://user:password@mongo:27017/admin?authSource=admin&directConnection=true');
+const authConnection = makeNewConnection('mongodb://user:password@localhost:27017/mongo_auth?authSource=admin');
+const docsConnection = makeNewConnection('mongodb://user:password@localhost:27017/mongo_documents?authSource=admin');
 */
 
 export {
   authConnection,
-  //docsConnection,
+  docsConnection,
+  //authConnectionW,
+  //docsConnectionW,
 };

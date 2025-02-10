@@ -1,5 +1,5 @@
 # dev
-FROM node:16.10.0-alpine AS dev
+FROM node:23-alpine3.20 AS dev
 RUN apk add --no-cache tzdata
 ENV TZ Europe/Moscow
 ENV NODE_PATH /home/server/node_modules
@@ -7,7 +7,7 @@ ENV NODE_PATH /home/server/node_modules
 WORKDIR /home/server/
 
 COPY /*.json ./
-RUN apk --no-cache add ca-certificates
+#RUN apk --no-cache add ca-certificates
 RUN npm i && npm install -g nodemon
 COPY . .
 #CMD [ "node" ]

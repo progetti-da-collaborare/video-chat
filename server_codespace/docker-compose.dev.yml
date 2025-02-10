@@ -3,6 +3,7 @@ version: '3'
 services:
   # Контейнер с Node.js
   app:
+    container_name: app
     build:
       context: ./websocket-for-codespaces
       target: dev
@@ -18,27 +19,56 @@ services:
     volumes:
       - /home/server/node_modules
       - /home/server/dbs
-#    environment:
+    environment:
 #      - MONGODB_URI=mongodb://user:password@mongo:27017/admin
+#      - PORT="8082"
+#      - PORT_SOCKET="8083"
+#      - TOKEN_FILES_CONDIVIDERE="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"
+#      - TOKEN_PEERTOPEER="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"
+      - URL_DB_SERVER=http://app:8082
     env_file:
       - ./.env
     ports:
       - '8082:8082'
     expose:
       - '8082'
-    external_links:
-      - mongo
+#    external_links:
+#      - mongo
     networks:
       - mongo
-    depends_on:
-      - mongo
+#    depends_on:
+#      - mongo
+#https://ryantravitz.com/blog/2018-10-14-mongodb-change-streams/
+#https://github.com/reactioncommerce/reaction/issues/5743
+#https://github.com/msound/localmongo/tree/4.0
+#https://github.com/docker-library/mongo/issues/223
+#https://www.atatus.com/blog/mongodb-replica-set-why-we-choose-to-do-it/
+#https://blog.tericcabrel.com/mongodb-replica-set-docker-compose/
+#https://nditah.hashnode.dev/setting-up-a-mongodb-replica-set-with-docker-compose
+#https://stackoverflow.com/questions/30041699/can-i-call-rs-initiate-and-rs-add-from-node-js-using-the-mongodb-driver
+#https://habr.com/ru/articles/305380/
+#https://stackoverflow.com/questions/61486024/mongo-container-with-a-replica-set-with-only-one-node-in-docker-compose
+#https://www.educba.com/mongodb-keyfile/
   mongo:
-    image: mongo:latest
+#    image: mongo:latest
+#    command: mongod --oplogSize 128 --replSet rs0 --storageEngine=wiredTiger
+#    command: mongod --bind_ip_all --replSet rs0
+    build:
+      context: ./mongo/
+    healthcheck:
+      test: |
+        test $$(mongosh --quiet -u root -p 12345678 --eval "try { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'mongo' }] }).ok } catch (_) { rs.status().ok }") -eq 1
+#        mongosh --eval "try { rs.status().ok } catch (e) { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'mongo:27017' }] }).ok }"
+      start_period: 0s
+      interval: 500ms
+      timeout: 5s
+      retries: 5
     hostname: 'mongo'
     container_name: mongo
     restart: unless-stopped
 #    working_dir: /home/server/dbs/mongo
 #    env_file: ./.env
+#https://stackoverflow.com/questions/73222424/mongodb-badvalue-security-keyfile-is-required-when-authorization-is-enabled-wi
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=12345678
@@ -52,21 +82,23 @@ services:
   mongo-express:
     image: mongo-express
     environment:
-      - ME_CONFIG_MONGODB_SERVER=mongo
+#      - ME_CONFIG_MONGODB_SERVER=mongo
 #      - ME_CONFIG_MONGODB_PORT=27017 - не работает, вроде deprecated - надо ME_CONFIG_MONGODB_URL
 #      - ME_CONFIG_MONGODB_URL=mongo://admin:password@localhost:27017/db?ssl=false
 #      - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017
-      - ME_CONFIG_MONGODB_URL=mongodb://iUUGI77HGJ7:uig778GGY789hIUHGUYgyuyu_9@mongo:27017/admin
-      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
-      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
-      - ME_CONFIG_MONGODB_AUTH_USERNAME=iUUGI77HGJ7
-      - ME_CONFIG_MONGODB_AUTH_PASSWORD=uig778GGY789hIUHGUYgyuyu_9
+#      - ME_CONFIG_MONGODB_URL=mongodb://iUUGI77HGJ7:uig778GGY789hIUHGUYgyuyu_9@mongo:27017/admin
+#      - ME_CONFIG_MONGODB_URL=mongodb://root:12345678@mongo:27017/admin
+      - ME_CONFIG_MONGODB_URL=mongodb://user:password@mongo:27017/mongo_documents?authSource=admin
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+#      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+#      - ME_CONFIG_MONGODB_AUTH_USERNAME=iUUGI77HGJ7
+#      - ME_CONFIG_MONGODB_AUTH_PASSWORD=uig778GGY789hIUHGUYgyuyu_9
       - ME_CONFIG_BASICAUTH_USERNAME=login
       - ME_CONFIG_BASICAUTH_PASSWORD=per_ass_sword
     depends_on:
       - mongo
     ports:
-      - "8888:8081"
+      - "8093:8081"
     networks:
       - mongo
 networks:

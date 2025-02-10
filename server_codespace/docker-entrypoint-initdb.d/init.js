@@ -1,6 +1,17 @@
 console.log("qwerty-----")
 db.auth('root', '12345678');
 
+db.createUser({
+  user: 'user',
+  pwd: 'password',
+  roles: [
+    {
+      role: 'readWrite',
+      db: 'mongo_documents',
+    },
+  ],
+});
+
 db = db.getSiblingDB("admin")
 db.createUser({
     user: 'iUUGI77HGJ7',
@@ -27,14 +38,14 @@ db.createUser({
   db.createCollection('roles');
   db.createCollection('users');
 
-db = db.getSiblingDB("mongo_docs")
+db = db.getSiblingDB("mongo_documents")
 db.createUser({
     user: 'user',
     pwd: 'password',
     roles: [
       {
         role: 'readWrite',
-        db: 'mongo_docs',
+        db: 'mongo_documents',
       },
     ],
   });

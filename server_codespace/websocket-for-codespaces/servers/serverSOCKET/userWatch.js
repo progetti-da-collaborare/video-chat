@@ -105,6 +105,12 @@ class UserWatch {
                     throw new Error("Тип запроса неверный, задайте параметр 'type'")
             }
 
+            console.log("fetch stuff")
+            console.log("url:" + JSON.stringify(url))
+            console.log("method:" + JSON.stringify(req))
+            console.log("body:" + JSON.stringify(data))
+            console.log("headers:" + JSON.stringify(headers))
+
             fetch( url, {
                     method: req,
                     body: JSON.stringify(data),
@@ -126,6 +132,7 @@ class UserWatch {
     //Из БД пользователю через сокетное соединение
     async onGetBDSnapShot(snapshot) {
         try {
+            console.log("-----onGetBDSnapShot")
             let proms
             //Рассматриваются только updatedFields - удаленные поля отслеживаются только для полей первого уровня,
             //удаление вложенных рассматривается как обновление

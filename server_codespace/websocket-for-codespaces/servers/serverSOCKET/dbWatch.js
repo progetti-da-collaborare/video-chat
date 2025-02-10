@@ -4,6 +4,7 @@
 import {callGroupModel} from './../../models/models.js'
 import usersDB from './usersDB.js'
 import userWatch from './userWatch.js'
+import {MongoClient} from 'mongodb'
 //Данные по сокетным подключениям
 /**
  * {idUser: {nickName: name, idGroup: []}}
@@ -31,7 +32,9 @@ import userWatch from './userWatch.js'
 
 class DbWatch {
     constructor() {
+        console.log('---------------DbWatch-start')
         this.changeStream = null
+        this.changeStream2 = null
         /*this.filter = [{
             "$match": {
                 "$and": [{"updateDescription.updatedFields.calls.$[].callee": { "$exists": "true" } }, 
@@ -51,6 +54,7 @@ class DbWatch {
                 }]
         
         this.options = { fullDocument: 'updateLookup' }
+        console.log('---------------DbWatch-end')
     }
 
 
@@ -91,10 +95,22 @@ class DbWatch {
         )*/
        //Without 'async' not function as calls aren't scheduled
         this.changeStream.on('change', async snapshot => userWatch.onGetBDSnapShot(snapshot));
+
+
+        const client = new MongoClient("mongodb://user:password@mongo:27017");
+        // Declare a variable to hold the change stream
+        const database = client.db("mongo_documents");
+        const haikus = database.collection("callGroup");
+        // Open a Change Stream on the "haikus" collection
+        this.changeStream2 = haikus.watch();
+        this.changeStream2.on("change", next => {
+            console.log("received a change to the collection: \t", next);
+        });
     }
 
     async closeWatch() {
         await this.changeStream.close()
+        await this.changeStream2.close()
     }
 }
 
