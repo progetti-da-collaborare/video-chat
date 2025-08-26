@@ -49,6 +49,7 @@ services:
 #https://habr.com/ru/articles/305380/
 #https://stackoverflow.com/questions/61486024/mongo-container-with-a-replica-set-with-only-one-node-in-docker-compose
 #https://www.educba.com/mongodb-keyfile/
+#https://translated.turbopages.org/proxy_u/en-ru.ru.96129fd7-67aa67ca-2d8bb665-74722d776562/https/www.geeksforgeeks.org/types-of-database-replication-system-design/#4-transactional-replication
   mongo:
 #    image: mongo:latest
 #    command: mongod --oplogSize 128 --replSet rs0 --storageEngine=wiredTiger
