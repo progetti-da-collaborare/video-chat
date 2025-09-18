@@ -1,0 +1,3 @@
+Note: Using the "preview" debug extension
+InputDeviceInfo {deviceId: '94b9ff0e6c27fb5bf2935b425ad7daaaed5510522d12b5f6b59d5ff4614f7964', kind: 'videoinput', label: 'USB CAMERA (1224:2a25)', groupId: 'da307160ee3de86bf8ae446cdf22e8e7a34f00c5e78564710ac498d15cbff7b5'}
+InputDeviceInfo {deviceId: '7d02b960a0d51a0853821cf6dce1dd4a8097267fcf8422260b46ed921ba3222b', kind: 'videoinput', label: 'Camo', groupId: '56f0a9ef9085ccc594463e69107d3d60c555c1744ab518b4deca834cbd56c9cc'}

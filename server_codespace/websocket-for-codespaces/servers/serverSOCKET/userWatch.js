@@ -31,7 +31,8 @@ class UserWatch {
             const {
                 idMe, idFriend, token, type, idGroupCall, 
                 offer, answer, offerCandidates, answerCandidates, title} = UserWatch.#messageToJSON(message)
-            const urlBase = `${process.env.URL_DB_SERVER}/crt/`;
+            //const urlBase = `${process.env.URL_APP_SERVER}/crt/`;
+            const urlBase = `/crt/`;
             let url, data, ws, req = "POST"
             let headers = {
                 Authorization: `Bearer ${token}`,

@@ -5,11 +5,11 @@ import VideoChat from './components/chatRTC/VideoChat'
 import 'bootstrap/dist/css/bootstrap.css'
 
 function App() {
-  
+
   return (
     <div className="App" style={{height: "100vh"}} >
-{/*      <VideoChat httpServer = "localhost:8082/"/>*/}
-      <VideoChat httpServer = "https://symmetrical-space-spoon-7v97x54p75rghqxx-8082.app.github.dev/"/>
+        <VideoChat /*httpServer = "app:8082"*/ />
+   {/*   <VideoChat httpServer = "https://symmetrical-space-spoon-7v97x54p75rghqxx-8082.app.github.dev/"/> */}
     </div>
   )
 }
