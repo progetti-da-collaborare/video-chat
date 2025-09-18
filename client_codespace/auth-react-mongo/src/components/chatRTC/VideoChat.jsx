@@ -11,9 +11,9 @@ import 'bootstrap/dist/css/bootstrap.css'
 import CondivideFiles from './CondivideFiles'
     
     const VideoChat = () => {
-        const httpServer = process.env.NODE_ENV==="development" ? 
+        const httpServer = ('REACT_APP_SERVER_URL' in process.env) && process.env.NODE_ENV==="development" ? 
             process.env.REACT_APP_SERVER_URL : 
-            window.location.protocol + '//' + window.location.host;
+            window.location.host + "/";
         //var nodeEnv = process.env.REACT_APP_SERVER_URL;//process.env.NODE_ENV;
         //console.log("node   -  " + process.env.nodeEnv);
         //path variables from url

@@ -95,7 +95,8 @@ const ReducerFrontEnd = ( {dispatch, setErr, connect, httpServer, params} ) => {
                 {
                     if(isProgress) return state
                     isProgress = true
-                    const url = "http://" + httpServer + `crt/call-group`
+                    const url = window.location.protocol + "//" + httpServer + `crt/call-group`
+                    //const url = "http://" + httpServer + `crt/call-group`
                     const data = { idMe: params.idMe, title: params.title, name: params.name }
                     await httpRequest( url, "POST", data, null )
                     //const w = setFulfilled( state.workflows, MSG_TYPE_F.CREATE_CALLGROUP.type )

@@ -22,9 +22,11 @@ const useWebSocketClient = ({onMessage, onClose, onOpen, onError, setStatusMsg, 
             if( socketStatus !== SOCKET_STATUS_TYPE.DISCONNECTED ) 
                 return setSocketStatus
             const id = Math.trunc(Math.random()*1000000).toString()
-            const resp = await httpRequest("http://" + httpServer + `crt/check-id`, "POST", { idMe: id }, null)
+            const resp = await httpRequest(window.location.protocol + "//" + httpServer + `crt/check-id`, "POST", { idMe: id }, null)
+            //console.log("- " + httpServer)
+            //console.log("- " + window.location.protocol)
                 if(!resp.ok) throw new ErrorChat("Websocket server error")
-            setSocket(new WebSocket("ws://" + httpServer + `?id=${id}`) )
+            setSocket(new WebSocket((window.location.protocol==="http" ? "ws" : "wss") + "//" + httpServer + `?id=${id}`) )
             setIdMe(id)
             return setSocketStatus
         }

@@ -1,4 +1,6 @@
 const httpRequest = async (url, method, body, token) => {
+    console.log("- " + url)
+            console.log("- " + window.location.protocol)
     const headers = {
         //Authorization: `Bearer ${token}`,
         Accept: 'application/json',
