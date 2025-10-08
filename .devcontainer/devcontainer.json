@@ -5,7 +5,7 @@
     // Your code path from the .devcontainer directory
     "workspaceFolder": "/home/vscode/app",
     // List of ports that you want to preview
-    "forwardPorts": [8082],
+    "forwardPorts": [8082, 8093],
     // Script to run to bootstrap the app when the space is created
     "postCreateCommand": "chmod +x ./setup.sh && ./setup.sh",
     // Automatically start the app in subsequent sessions
