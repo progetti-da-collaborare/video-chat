@@ -68,6 +68,7 @@ services:
     hostname: 'mongo'
     container_name: mongo
     restart: unless-stopped
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
 #    working_dir: /home/server/dbs/mongo
 #    env_file: ./.env
 #https://stackoverflow.com/questions/73222424/mongodb-badvalue-security-keyfile-is-required-when-authorization-is-enabled-wi
