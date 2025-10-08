@@ -11,4 +11,4 @@ RUN apk add --no-cache docker-compose
 
 #ADD ./app /home/app
 
-EXPOSE 8082
+EXPOSE 8082 8093

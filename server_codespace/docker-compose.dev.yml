@@ -96,8 +96,8 @@ services:
 #      - ME_CONFIG_MONGODB_AUTH_PASSWORD=uig778GGY789hIUHGUYgyuyu_9
       - ME_CONFIG_BASICAUTH_USERNAME=login
       - ME_CONFIG_BASICAUTH_PASSWORD=per_ass_sword
-#    depends_on:
-#      - mongo
+    depends_on:
+      - mongo
     ports:
       - "8093:8081"
     expose:
