@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use('/', function(req, res, next) {
-    const allowedOrigins = ["http://localhost:3005", "http://localhost:3006"]
+    const allowedOrigins = ["*"]//["http://localhost:3005", "http://localhost:3006"]
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
