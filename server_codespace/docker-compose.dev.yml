@@ -100,6 +100,8 @@ services:
       - mongo
     ports:
       - "8093:8081"
+    expose:
+      - '8093'
     networks:
       - mongo
 networks:
