@@ -36,8 +36,8 @@ services:
 #      - mongo
     networks:
       - mongo
-#    depends_on:
-#      - mongo
+    depends_on:
+      - mongo
 #https://ryantravitz.com/blog/2018-10-14-mongodb-change-streams/
 #https://github.com/reactioncommerce/reaction/issues/5743
 #https://github.com/msound/localmongo/tree/4.0
