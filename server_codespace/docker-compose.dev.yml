@@ -86,7 +86,7 @@ services:
     volumes:
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
       - data:/data/db
-      - repl:/data/replica.key
+      - repl:/data
   mongo2:
 #    image: mongo:latest
 #    command: mongod --oplogSize 128 --replSet rs0 --storageEngine=wiredTiger
@@ -106,7 +106,7 @@ services:
       - mongo
     volumes:
       - data:/data/db
-      - repl:/data/replica.key
+      - repl:/data
   mongo-express:
     image: mongo-express
     environment:
