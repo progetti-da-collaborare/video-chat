@@ -102,8 +102,8 @@ services:
     hostname: 'mongo2'
     container_name: mongo2
     restart: unless-stopped
-    ports:
-      - "27018:27017"
+#    ports:
+#      - "27018:27017"
 #    expose:
 #      - '27017'
 #    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
