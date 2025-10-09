@@ -1,6 +1,2 @@
 FROM mongo:6
-RUN echo "password" > /keyfile \
-  && chmod 600 /keyfile \
-  && chown 999 /keyfile \
-  && chgrp 999 /keyfile
-CMD ["mongod", "--bind_ip_all", "--keyFile", "/keyfile", "--replSet", "rs0"]
+CMD ["mongod", "--bind_ip_all", "--keyFile", "/data/replica.key", "--replSet", "rs0"]
