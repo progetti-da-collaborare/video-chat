@@ -1,4 +1,12 @@
 FROM mongo:6
+#RUN apt-get update
+#RUN apt-get install sudo
+#COPY /f.sh /
+#RUN chmod +x /f.sh
+#RUN sudo chmod 600 /etc/hosts \
+#  && sudo chown 999 /etc/hosts \
+#  && sudo chgrp 999 /etc/hosts
+#RUN /bin/bash /f.sh  
 RUN echo "password" > /data/replica.key \
   && chmod 600 /data/replica.key \
   && chown 999 /data/replica.key \

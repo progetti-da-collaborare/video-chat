@@ -11,5 +11,3 @@ sudo docker-compose up -d
 # otherwise, any servers running in docker will not have their ports
 # forwarded properly by codespaces.
 sudo docker-compose stop
-sudo echo "127.0.0.1 mongo
-          127.0.0.1 mongo2" | sudo tee -a /etc/hosts
