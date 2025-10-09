@@ -132,9 +132,9 @@ services:
     networks:
       - mongo
 networks:
-  - mongo
+  mongo:
 volumes:
-  - data
-  - repl
+  data:
+  repl:
 
 #https://tourism-8mn.pages.dev/#navigation/Осенняя%20Карелия/Forest%20Harvest.html
