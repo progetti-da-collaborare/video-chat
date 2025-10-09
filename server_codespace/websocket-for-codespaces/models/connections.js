@@ -41,8 +41,8 @@ const docsConnection = makeNewConnection('mongodb+srv://Jaimlja:%5FGirolamo%5FCa
 */
 
 //DBs in docker containers, server on PC
-const authConnection = makeNewConnection('mongodb://user:password@mongo:27017/mongo_auth?authSource=admin&replicaSet=rs0&directConnection=true&retryWrites=true&w=majority&useNewUrlParser=false');
-const docsConnection = makeNewConnection('mongodb://user:password@mongo:27017/mongo_documents?authSource=admin&replicaSet=rs0&directConnection=true&retryWrites=true&w=majority&useNewUrlParser=false');
+const authConnection = makeNewConnection('mongodb://user:password@mongo:27017/mongo_auth?authSource=admin&replicaSet=rs0&directConnection=true&retryWrites=true&w=majority&useNewUrlParser=true');
+const docsConnection = makeNewConnection('mongodb://user:password@mongo:27017/mongo_documents?authSource=admin&replicaSet=rs0&directConnection=true&retryWrites=true&w=majority&useNewUrlParser=true');
 
 //DBs and server in docker containers
 /*
