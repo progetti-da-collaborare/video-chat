@@ -25,3 +25,6 @@
 /server_codespace/test client for server
 /server_codespace/test server
 **/readme.txt
+
+**/data-mongo
+**/data-mongo2

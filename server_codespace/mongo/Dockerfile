@@ -7,4 +7,8 @@ FROM mongo:6
 #  && sudo chown 999 /etc/hosts \
 #  && sudo chgrp 999 /etc/hosts
 #RUN /bin/bash /f.sh  
-CMD ["mongod", "--bind_ip_all", "--keyFile", "/data/replica.key", "--replSet", "rs0"]
+RUN echo "password" > /data/replica.key \
+  && chmod 600 /data/replica.key \
+  && chown 999 /data/replica.key \
+  && chgrp 999 /data/replica.key
+CMD ["mongod","--bind_ip", "127.0.0.1,mongo", "--keyFile", "/data/replica.key", "--replSet", "rs0", "--port", "27017"]
