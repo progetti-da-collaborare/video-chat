@@ -58,7 +58,8 @@ services:
       context: ./mongo/
     healthcheck:
       test: |
-        test $$(mongosh --quiet -u root -p 12345678 --eval "try { rs.initiate({ _id: 'rs0', members: [{ _id: 1, host: '127.0.0.1:27017'}] }).ok } catch (_) { rs.status().ok }") -eq 1      
+        test $$(mongosh --quiet -u root -p 12345678 --eval "try { rs.initiate({ _id: 'rs0', members: [{ _id: 1, host: 'mongo:27017', "priority": 2}, { _id: 2, host: 'mongo2:27017', "priority": 1}
+        ] }).ok } catch (_) { rs.status().ok }") -eq 1      
 #        test $$(mongosh --quiet -u root -p 12345678 --eval "try { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'mongo' }] }).ok } catch (_) { rs.status().ok }") -eq 1
 #        mongosh --eval "try { rs.status().ok } catch (e) { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'mongo:27017' }] }).ok }"
       start_period: 0s
@@ -82,6 +83,25 @@ services:
       - mongo
     volumes:
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
+  mongo2:
+#    image: mongo:latest
+#    command: mongod --oplogSize 128 --replSet rs0 --storageEngine=wiredTiger
+#    command: mongod --bind_ip_all --replSet rs0
+    build:
+      context: ./mongo/
+    hostname: 'mongo2'
+    container_name: mongo2
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    expose:
+      - '27017'
+#    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+#    working_dir: /home/server/dbs/mongo
+#    env_file: ./.env
+#https://stackoverflow.com/questions/73222424/mongodb-badvalue-security-keyfile-is-required-when-authorization-is-enabled-wi
+    networks:
+      - mongo
   mongo-express:
     image: mongo-express
     environment:
