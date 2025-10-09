@@ -3,4 +3,4 @@ RUN echo "password" > /keyfile \
   && chmod 600 /keyfile \
   && chown 999 /keyfile \
   && chgrp 999 /keyfile
-CMD ["mongosh", "--bind_ip_all", "--keyFile", "/keyfile", "--replSet", "rs0"]
+CMD ["mongod", "--bind_ip_all", "--keyFile", "/keyfile", "--replSet", "rs0"]
